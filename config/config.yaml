@@ -1,0 +1,19 @@
+channels:
+  - socket_name: can1
+    dbc_file_name: <user-dbc>
+    log_file_name: <user-log-file-name (without ending e.g. .mcap)>
+    receive_ip: 127.0.0.1
+    receive_port: 9870
+    mcap_logging: true
+    udp_publishing: false
+    ignore_msgs: []
+
+  - socket_name: can0
+    dbc_file_name: <user-dbc>
+    log_file_name: <user-log-file-name (without ending e.g. .mcap)>
+    receive_ip: 127.0.0.1
+    receive_port: 9870
+    mcap_logging: true
+    udp_publishing: false
+    ignore_msgs: []
+
