@@ -1,7 +1,7 @@
 channels:
   - socket_name: can1
-    dbc_file_name: <user-dbc>
-    log_file_name: <user-log-file-name (without ending e.g. .mcap)>
+    dbc_file_name: /home/test/Git/Charger/dbc/CAN4_Accu_1.dbc
+    log_file_name: ../Logs/CAN4
     receive_ip: 127.0.0.1
     receive_port: 9870
     mcap_logging: true
@@ -9,8 +9,8 @@ channels:
     ignore_msgs: []
 
   - socket_name: can0
-    dbc_file_name: <user-dbc>
-    log_file_name: <user-log-file-name (without ending e.g. .mcap)>
+    dbc_file_name: /home/test/Git/Charger/dbc/CAN7_UASA2209_Accu_2.dbc
+    log_file_name: ../Logs/CAN7
     receive_ip: 127.0.0.1
     receive_port: 9870
     mcap_logging: true

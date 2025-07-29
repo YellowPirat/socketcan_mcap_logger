@@ -17,7 +17,7 @@ std::string getDate() {
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     std::tm now_tm = *std::localtime(&now_time);
     std::ostringstream oss;
-    oss << std::put_time(&now_tm, "_%Y-%m-%d_%H:%M:%S");
+    oss << std::put_time(&now_tm, "_%Y-%m-%d_%H_%M_%S");
     return oss.str();
 }
 
