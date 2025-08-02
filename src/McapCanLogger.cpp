@@ -17,8 +17,55 @@ std::string getDate() {
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
     std::tm now_tm = *std::localtime(&now_time);
     std::ostringstream oss;
-    oss << std::put_time(&now_tm, "_%Y-%m-%d_%H_%M_%S");
+    oss << std::put_time(&now_tm, "/%Y-%m-%d");
     return oss.str();
+}
+
+std::string getHour() {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    std::tm now_tm = *std::localtime(&now_time);
+    std::ostringstream oss;
+    oss << std::put_time(&now_tm, "_%H_%M_%S");
+    return oss.str();
+}
+
+std::string getBasePath(std::string path) {
+    int last_slash_pos = 0;
+    int i = 0;
+
+    for (auto c : path) {
+        if (c == '/') {
+            last_slash_pos = i;
+        }
+        i++;
+    }
+
+    std::string base_path;
+    for (i = 0; i < last_slash_pos; i++) {
+        base_path += path[i];
+    }
+
+    return base_path;
+}
+
+std::string getFileName(std::string path) {
+    int last_slash_pos = 0;
+    int i = 0;
+
+    for (auto c : path) {
+        if (c == '/') {
+            last_slash_pos = i;
+        }
+        i++;
+    }
+
+    std::string file_name;
+    for (i = last_slash_pos; i < path.size(); i++) {
+        file_name += path[i];
+    }
+
+    return file_name;
 }
 
 
@@ -31,8 +78,12 @@ std::vector<mcl::CAN_CONFIG> mcl::McapCanLogger::parse_config(YAML::Node node) {
 
             can_config.socket_name = options["socket_name"].as<std::string>();
             can_config.dbc_file_name = get_absolut_path(options["dbc_file_name"].as<std::string>());
-            can_config.log_file_name = get_absolut_path(options["log_file_name"].as<std::string>());
+            can_config.log_file_name = getBasePath(get_absolut_path(options["log_file_name"].as<std::string>()));
             can_config.log_file_name += getDate();
+            can_config.log_file_name += getFileName(get_absolut_path(options["log_file_name"].as<std::string>()));
+            can_config.log_file_name += "/";
+            can_config.log_file_name += getFileName(get_absolut_path(options["log_file_name"].as<std::string>()));
+            can_config.log_file_name += getHour();
             can_config.log_file_name += ".mcap";
             can_config.receive_ip = options["receive_ip"].as<std::string>();
             can_config.receive_port = options["receive_port"].as<uint32_t>();

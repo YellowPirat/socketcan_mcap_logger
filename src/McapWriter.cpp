@@ -3,6 +3,7 @@
 #include "MyLog.h"
 #include <fmt/color.h>
 #include <fmt/chrono.h>
+#include <filesystem>
 
 mcl::McapWriter::~McapWriter() {
     _writer->close();
@@ -25,6 +26,19 @@ void mcl::McapWriter::init_mcap_logger( const std::unordered_map<uint32_t,mydesc
                                         const std::string& socket_name,
                                         const std::string& mcap_file_name) 
 {
+    std::filesystem::path file_path(mcap_file_name);
+    std::filesystem::path dir_path = file_path.parent_path();
+
+    if (!dir_path.empty() && !std::filesystem::exists(dir_path)) {
+        try {
+            std::filesystem::create_directories(dir_path);
+        } catch (const std::filesystem::filesystem_error& e) {
+            mcl::log_error("Failed to create directories for mcap log file",
+                           {{"Error", e.what()}, {"Directory", dir_path.string()}});
+            std::exit(EXIT_FAILURE);
+        }
+    }
+
     if(!_writer->open(mcap_file_name, mcap::McapWriterOptions("")).ok()){
         mcl::log_error( "Failed to create mcap log file",
                         {{"Filename", mcap_file_name}});

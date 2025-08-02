@@ -4,7 +4,7 @@ Requires=can_setup.service
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c '/home/<exec-folder>/MCL --config_file="/home/<config-folder>/config.yaml"'
+ExecStart=/bin/bash -c '/home/charger/Git/socketcan_mcap_logger/build/MCL --config_file="/home/charger/Git/socketcan_mcap_logger/config/config.yaml"'
 Restart=on-failure
 
 [Install]
